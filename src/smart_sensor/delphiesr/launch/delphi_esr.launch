@@ -1,0 +1,11 @@
+<launch>
+    <!-- delphi_esr package launch file -->
+
+
+    <rosparam file="$(find launch_project_s)/config/config.yaml" command="load" ns="/" /> 
+
+    <node pkg="delphiesr" type="delphi_esr" name="delphi_esr_node" output="screen"> </node>
+
+</launch>
+
+

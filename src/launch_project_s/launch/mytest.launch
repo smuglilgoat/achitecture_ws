@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<launch>
+
+<!--################################################## ARGUMENTS ##########################################################-->
+
+  <arg name="veh_frame_id" default="base_link" />
+
+  <!--machine name="ecu-right" address="ecu-right" user="dev" env-loader="/home/dev/remote_setup.sh" /-->
+
+  <arg name="use_socketcan" default="false" />
+  <arg name="use_kvaser" default="true" />
+
+ <arg name="with_dataspeed" default="true" />
+
+  
+  <!-- ESR arguments -->
+  <arg name="esr_frame_id" default="esr_1" />
+  <arg name="esr_upside_down" default="false" />
+  <arg name="esr_viz_mature_tracks_only" default="false" />
+  <arg name="esr_kvaser_hardware_id" default="45344" />       <!-- Kvaser Hardware ID -->
+  <arg name="esr_kvaser_circuit_id" default="0" />
+  <arg name="esr_socketcan_device" default="can0" />
+
+  <!-- Ibeo arguments -->
+  <arg name="lux_frame_id" default="ibeo_lux"/>
+  <arg name="is_fusion" default="true"/>
+  <arg name="name" default="ibeo_lux"/>
+  <arg name="ip_address" default="192.168.0.100"/>
+  <arg name="port" default="12002"/>
+
+
+  <!-- SRR arguments -->
+  <arg name="srr_use_kvaser" default="true" />
+  <arg name="srr_use_socketcan" default="false" />
+  <arg name="front_srr_kvaser_hardware_id" default="46309" />
+  <arg name="rear_srr_kvaser_hardware_id" default="45345"/>
+
+            <!-- Kvaser Hardware ID -->
+  <arg name="front_srr_kvaser_circuit_id" default="0" />
+  <arg name="rear_srr_kvaser_circuit_id" default="0" />
+  <arg name="front_srr_socketcan_device" default="can1" />
+  <arg name="rear_srr_socketcan_device" default="can2" />
+
+  <arg name="front_left_srr_frame_id" default="front_left_srr"/>
+  <arg name="front_left_srr_upside_down" default="false"/>
+  <arg name="front_left_srr_filter_on_valid" default="true" />
+
+  <arg name="front_right_srr_frame_id" default="front_right_srr"/>
+  <arg name="front_right_srr_upside_down" default="false"/>
+  <arg name="front_right_srr_filter_on_valid" default="true" />
+
+  <arg name="rear_left_srr_frame_id" default="rear_left_srr"/>
+  <arg name="rear_left_srr_upside_down" default="false"/>
+  <arg name="rear_left_srr_filter_on_valid" default="true" />
+
+  <arg name="rear_right_srr_frame_id" default="rear_right_srr"/>
+  <arg name="rear_right_srr_upside_down" default="false"/>
+  <arg name="rear_right_srr_filter_on_valid" default="true" />
+
+
+
+
+<!--Novatel Propak6/ Powerpak7-->
+  <arg name="novatel_connection_type" default="serial"/> <!--Change this to "serial/tcp" if needed-->
+  <arg name="novatel_device" default="/dev/ttyUSB2"/> <!--Change this to a USB device like /dev/ttyUSBX for Serial and [ip_address]:[port] for tcp-->
+  <arg name="novatel_imu_rate" default="100"/>
+  <arg name="novatel_imu_frame_id" default="/novatel/imu"/>
+  <arg name="novatel_gps_frame_id" default="/novatel/gps"/>
+  <arg name="novatel_verbose" default="false"/>
+  <arg name="novatel_imu_sample_rate" default="-1"/>
+  <arg name="novatel_span_frame_to_ros_frame" default="false"/>
+  
+<!--Mobileye 550/660-->
+ <arg name="mobileye_viz_frame_id" default="me_viz" />
+ <arg name="mobileye_sensor_frame_id" default="mobileye" />
+ <arg name="mobileye_kvaser_hardware_id" default=" 41314" />              <!-- Kvaser Hardware ID -->
+ <arg name="mobileye_kvaser_circuit_id" default="0" />
+ <arg name="mobileye_socketcan_device" default="can3" />
+
+<!--###################################################### LAUNCH CONFIG ##########################################################-->
+
+  <arg name="with_esr" default="true" />
+  <arg name="with_srrs" default="true" />
+  <arg name="with_mobileye" default="true" />
+  <arg name="with_novatel" default="true" />
+     
+<!--################################################## TRANSFORMS #################################################################-->
+  <!-- x y z (in meters) and yaw pitch roll (in radians)
+  x: Positive forward along the vehicle
+  y: Positive to the left 
+  z: Upwards
+  Yaw: About z axis (non-zero for the SRRS)
+  Pitch: About Y axis (should be zero for SRRs but make sure)
+  Roll: About x axis(should be zero for the SRRs)
+
+ No yaw/pitch/roll for the ESR
+  -->
+ 
+<!--ESR transforms-->
+  <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg esr_frame_id)" args="3.05 0 0.19 0 0 0 $(arg veh_frame_id) $(arg esr_frame_id) 100" /> 
+
+<!--SRR transforms-->
+ <!--rear-->
+  <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg rear_left_srr_frame_id)" args="-0.89 0.75 0.57 1.88 0 0 $(arg veh_frame_id) $(arg rear_left_srr_frame_id) 100" />
+  <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg rear_right_srr_frame_id)" args="-0.89 -0.77 0.57 -1.88 0 0 $(arg veh_frame_id) $(arg rear_right_srr_frame_id) 100" />
+
+ <!--front-->  
+<node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg front_left_srr_frame_id)" args="3.35 1.079 0.541 1.01 0 3.14 $(arg veh_frame_id) $(arg front_left_srr_frame_id) 100" />
+<node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg front_right_srr_frame_id)" args="3.35 -1.079 0.541 -1.05 0 0 $(arg veh_frame_id) $(arg front_right_srr_frame_id) 100" />
+
+<!--Mobileye transforms-->
+  <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg mobileye_sensor_frame_id)" args="2.1 0 1.2 0 0 0 $(arg veh_frame_id) $(arg mobileye_sensor_frame_id) 100" />
+  <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg mobileye_viz_frame_id)" args="2.1 0 1.2 0 0 0 $(arg mobileye_sensor_frame_id) $(arg mobileye_viz_frame_id) 100" />
+
+<!--Ibeo transforms-->
+
+  <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg lux_frame_id)" args="0 0 0 0 0 0 $(arg veh_frame_id) $(arg lux_frame_id) 100" /> 
+
+
+
+<!--###################################################### NODE CONFIG ##################################################################-->
+
+<!--Delphi ESR-->
+  <group if="$(arg with_esr)" ns="$(arg esr_frame_id)">
+   <remap from="/$(arg esr_frame_id)/as_rx/vehicle_motion" to="/vehicle/twist" if="$(arg with_dataspeed)" />
+
+    <node pkg="kvaser_interface" type="kvaser_can_bridge" name="kvaser_can_bridge" if="$(arg use_kvaser)">
+      <param name="can_hardware_id" value="$(arg esr_kvaser_hardware_id)" />
+      <param name="can_circuit_id" value="$(arg esr_kvaser_circuit_id)" />
+      <param name="can_bit_rate" value="500000" />
+    </node>
+
+   <node pkg="socketcan_bridge" type="socketcan_bridge_node" name="socketcan_bridge" if="$(arg use_socketcan)">
+    <param name="can_device" value="$(arg socketcan_device)" />
+  </node>
+ 
+  <node pkg="delphi_esr" type="delphi_esr_can" name="delphi_esr_can">
+    <param name="sensor_frame_id" value="$(arg esr_frame_id)"/>
+    <param name="sensor_upside_down" value="$(arg esr_upside_down)"/>
+    <!-- removes the noise of new tracks in rviz and only vizualizes the mature tracks --> 
+    <param name="viz_mature_tracks_only" value="$(arg esr_viz_mature_tracks_only)"/>
+  </node>    
+
+ </group>
+
+
+<!--Delphi SRR-->
+<group if="$(arg with_srrs)">
+ 
+
+<group ns="rear_srr">
+  <include file="$(find kvaser_interface)/launch/kvaser_can_bridge.launch" if="$(arg use_kvaser)">
+    <arg name="can_hardware_id" value="$(arg rear_srr_kvaser_hardware_id)" />
+    <arg name="can_circuit_id" value="$(arg rear_srr_kvaser_circuit_id)" />
+    <arg name="can_bit_rate" value="500000" />
+  </include>
+  <node pkg="socketcan_bridge" type="socketcan_bridge_node" name="socketcan_bridge" if="$(arg use_socketcan)">
+    <arg name="can_device" value="$(arg socketcan_device)" />
+  </node>
+
+
+  <group ns="$(arg rear_left_srr_frame_id)">
+    <remap from="can_rx" to="/rear_srr/can_rx" />
+    <remap from="can_tx" to="/rear_srr/can_tx" />
+    <include file="$(find delphi_srr)/launch/delphi_srr.launch">
+      <arg name="srr_frame_id" value="$(arg rear_left_srr_frame_id)"/>
+      <arg name="srr_side" value="Left"/>
+      <arg name="srr_upside_down" value="$(arg rear_left_srr_upside_down)"/>
+      <arg name="filter_on_valid" value="$(arg rear_left_srr_filter_on_valid)"/>
+    </include>
+  </group>
+
+  <group ns="$(arg rear_right_srr_frame_id)">
+    <remap from="can_rx" to="/rear_srr/can_rx" />
+    <remap from="can_tx" to="/rear_srr/can_tx" />
+    <include file="$(find delphi_srr)/launch/delphi_srr.launch">
+      <arg name="srr_frame_id" value="$(arg rear_right_srr_frame_id)"/>
+      <arg name="srr_side" value="Right"/>
+      <arg name="srr_upside_down" value="$(arg rear_right_srr_upside_down)"/>
+      <arg name="filter_on_valid" value="$(arg rear_right_srr_filter_on_valid)"/>
+    </include>
+  </group>
+</group>
+
+
+
+<group ns="front_srr">
+  <include file="$(find kvaser_interface)/launch/kvaser_can_bridge.launch" if="$(arg use_kvaser)">
+    <arg name="can_hardware_id" value="$(arg front_srr_kvaser_hardware_id)" />
+    <arg name="can_circuit_id" value="$(arg front_srr_kvaser_circuit_id)" />
+    <arg name="can_bit_rate" value="500000" />
+  </include>
+  <node pkg="socketcan_bridge" type="socketcan_bridge_node" name="socketcan_bridge" if="$(arg use_socketcan)">
+    <arg name="can_device" value="$(arg socketcan_device)" />
+  </node>
+
+
+  <group ns="$(arg front_left_srr_frame_id)">
+    <remap from="can_rx" to="/front_srr/can_rx" />
+    <remap from="can_tx" to="/front_srr/can_tx" />
+    <include file="$(find delphi_srr)/launch/delphi_srr.launch">
+      <arg name="srr_frame_id" value="$(arg front_left_srr_frame_id)"/>
+      <arg name="srr_side" value="Left"/>
+      <arg name="srr_upside_down" value="$(arg front_left_srr_upside_down)"/>
+      <arg name="filter_on_valid" value="$(arg front_left_srr_filter_on_valid)"/>
+    </include>
+  </group>
+
+  <group ns="$(arg front_right_srr_frame_id)">
+    <remap from="can_rx" to="/front_srr/can_rx" />
+    <remap from="can_tx" to="/front_srr/can_tx" />
+    <include file="$(find delphi_srr)/launch/delphi_srr.launch">
+      <arg name="srr_frame_id" value="$(arg front_right_srr_frame_id)"/>
+      <arg name="srr_side" value="Right"/>
+      <arg name="srr_upside_down" value="$(arg front_right_srr_upside_down)"/>
+      <arg name="filter_on_valid" value="$(arg front_right_srr_filter_on_valid)"/>
+    </include>
+  </group>
+</group>
+ 
+</group>
+  
+  
+
+
+<!--Novatel Powerpak/Propak-->
+<node name="novatel" pkg="nodelet" type="nodelet" args="standalone novatel_gps_driver/novatel_gps_nodelet" if="$(arg with_novatel)">
+ <param name="verbose" value="$(arg novatel_verbose)"/>
+ <param name="connection_type" value="$(arg novatel_connection_type)"/>
+ <param name="device" value="$(arg novatel_device)"/>
+ <param name="imu_rate" value="$(arg novatel_imu_rate)"/>
+ <param name="imu_frame_id" value="$(arg novatel_imu_frame_id)"/>
+ <param name="gps_frame_id" value="$(arg novatel_gps_frame_id)"/>
+ <param name="publish_novatel_positions" value="true"/>
+ <param name="frame_id" value="$(arg novatel_gps_frame_id)"/>
+ <param name="imu_sample_rate" value="$(arg novatel_imu_sample_rate)"/>
+ <param name="use_binary_messages" value="false"/>
+ <param name="publish_nmea_messages" value="true"/>
+ <param name="publish_imu_messages" value="true"/>
+ <param name="gpgga_gprmc_sync_tol" value="1.05"/>
+ <param name="gpgga_position_sync_tol" value="1.05"/>
+ <param name="span_frame_to_ros_frame" value="$(arg novatel_span_frame_to_ros_frame)"/>   
+</node>
+  
+
+
+
+<!--Mobileye--> 
+  <group if="$(arg with_mobileye)" ns="$(arg mobileye_sensor_frame_id)">
+
+  <include file="$(find kvaser_interface)/launch/kvaser_can_bridge.launch" if="$(arg use_kvaser)">
+    <arg name="can_hardware_id" value="$(arg mobileye_kvaser_hardware_id)" />
+    <arg name="can_circuit_id" value="$(arg mobileye_kvaser_circuit_id)" />
+    <arg name="can_bit_rate" value="500000" />
+  </include>
+
+  <node pkg="socketcan_bridge" type="socketcan_bridge_node" name="socketcan_bridge" if="$(arg use_socketcan)">
+    <param name="can_device" value="$(arg mobileye_socketcan_device)" />
+  </node>
+
+  <node pkg="mobileye_560_660" type="mobileye_560_660" name="mobileye_560_660">
+    <param name="viz_frame_id" value="$(arg mobileye_viz_frame_id)" />
+    <param name="sensor_frame_id" value="$(arg mobileye_sensor_frame_id)" />
+  </node>
+ </group>
+
+
+<!--Ibeo--> 
+
+  <node pkg="ibeo_lux" type="ibeo_lux" name="$(arg name)">
+    <param name="ip_address" value="$(arg ip_address)"/>
+    <param name="port" type="int" value="$(arg port)"/>
+    <param name="sensor_frame_id" value="$(arg lux_frame_id)"/>           
+    <param name="is_fusion" type="bool" value="$(arg is_fusion)"/>           
+  </node>
+
+
+</launch>

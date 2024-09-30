@@ -1,0 +1,9 @@
+﻿<launch>
+
+  <node name="hmi_as" pkg="hmi_as" type="hmi_as" args="--force-discover" >
+   <param name="default_topicCam" value="/camera_me_obstacle"/>
+   <param name="default_topicLidar" value="/lidar_obstacle"/>
+   <param name="default_topicEnv" value="/obstacles"/>
+  </node>
+ 
+</launch>

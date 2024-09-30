@@ -1,0 +1,32 @@
+<launch>
+    <!-- sonar package launch file -->
+
+  <rosparam file="$(find launch_project_s)/config/config.yaml" command="load" ns="/" /> 
+  <arg name="model" default="$(find launch_project_s)/urdf/voiture.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+  <arg name="veh_frame_id" default="base_link" />
+  <arg name="sonar_RLCorner_frame_id" default="sonar_rearleftcorner" />
+  <arg name="sonar_RLCenter_frame_id" default="sonar_rearleftcenter" />
+  <arg name="sonar_RRCenter_frame_id" default="sonar_rearrightcenter" />
+  <arg name="sonar_RRCorner_frame_id" default="sonar_rearrightcorner" />
+
+<!--SONAR Rear Left Corner transforms!-->
+
+  <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg sonar_RLCorner_frame_id)" args="-1 0.9 0.5 2.61 0 0 $(arg veh_frame_id) $(arg sonar_RLCorner_frame_id) 100" /> 
+
+<!--SONAR Rear Left Center transforms-->
+
+ <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg sonar_RLCenter_frame_id)" args="-1 0.3 0.5 3.14 0 0 $(arg veh_frame_id) $(arg sonar_RLCenter_frame_id) 100" /> 
+
+<!--SONAR Rear Right Center transforms-->
+
+ <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg sonar_RRCenter_frame_id)" args="-1 -0.3 0.5 3.14 0 0 $(arg veh_frame_id) $(arg sonar_RRCenter_frame_id) 100" /> 
+
+<!--SONAR Rear Right Corner transforms-->
+
+ <node pkg="tf" type="static_transform_publisher" name="$(arg veh_frame_id)_to_$(arg sonar_RRCorner_frame_id)" args="-1 -0.9 0.5 3.66 0 0 $(arg veh_frame_id) $(arg sonar_RRCorner_frame_id) 100" /> 
+
+
+ <node pkg="sonar" type="sonar" name="sonar_data" output="screen"> </node>
+</launch>

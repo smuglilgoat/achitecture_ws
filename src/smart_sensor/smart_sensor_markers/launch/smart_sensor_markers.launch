@@ -1,0 +1,15 @@
+<launch>
+    <!-- smart_sensor_markers package launch file -->
+
+    <rosparam file="$(find launch_project_s)/config/config.yaml" command="load" ns="/" /> 
+    <arg name="model" default="$(find launch_project_s)/urdf/voiture.xacro"/>
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+  <!-- smart_sensor_markers -->
+
+<group ns="/smart_sensor">
+  <node name="smart_sensor_markers" 		pkg="smart_sensor_markers" 		type="smart_sensor_markers" />
+  <node name="smart_sensor_align_marker" 	pkg="smart_sensor_markers" 		type="smart_sensor_align_marker" />
+</group>
+
+</launch>

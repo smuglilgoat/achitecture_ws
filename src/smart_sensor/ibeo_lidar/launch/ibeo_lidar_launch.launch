@@ -1,0 +1,7 @@
+<launch>
+    <!-- ibeo_lidar package launch file -->
+
+    <rosparam file="$(find launch_project_s)/config/config.yaml" command="load" ns="/" /> 
+
+    <node pkg="ibeo_lidar" type="ibeo_lidar" name="Ibeo_Lidar_node" output="screen"> </node>
+</launch>

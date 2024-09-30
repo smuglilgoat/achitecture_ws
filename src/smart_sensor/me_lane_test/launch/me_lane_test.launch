@@ -1,0 +1,4 @@
+<launch>
+    <!-- mobileyelane package launch file -->
+    <node pkg="me_lane_test" type="me_lane_test" name="mobileye_lane_data" output="screen"> </node>
+</launch>

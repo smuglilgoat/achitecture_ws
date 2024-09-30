@@ -1,0 +1,17 @@
+<library path="src">
+  <class name="Sniffer" type="hmi_as.hmi_as.Sniffer" base_class_type="rqt_gui_py::Plugin">
+    <description>
+	HMI for topics sniffing
+    </description>
+    <qtgui>
+      <group>
+        <label>Tools</label>
+        <icon type="theme">folder</icon>
+        <statustip></statustip>
+      </group>
+      <label>Sniffer</label>
+      <icon type="theme">input-gaming</icon>
+      <statustip></statustip>
+    </qtgui>
+  </class>
+</library>

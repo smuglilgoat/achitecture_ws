@@ -1,0 +1,24 @@
+Header header
+std_msgs/UInt8 id
+
+uint8 left_lane_type
+uint8 left_quality
+uint8 left_model_degree
+float64 left_position_parameter_c0
+float64 left_curvature_parameter_c2
+float64 left_curvature_derivative_parameter_c3
+float32 left_marking_width
+float64 left_heading_angle_parameter_c1
+float32 left_view_range
+bool left_view_range_availability
+
+uint8 right_lane_type
+uint8 right_quality
+uint8 right_model_degree
+float64 right_position_parameter_c0
+float64 right_curvature_parameter_c2
+float64 right_curvature_derivative_parameter_c3
+float32 right_marking_width
+float64 right_heading_angle_parameter_c1
+float32 right_view_range
+bool right_view_range_availability

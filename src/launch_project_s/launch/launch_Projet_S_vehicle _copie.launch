@@ -1,0 +1,123 @@
+﻿<launch>
+  <rosparam file="$(find launch_project_s)/config/config.yaml" command="load" ns="/" /> 
+  <arg name="model" default="$(find launch_project_s)/urdf/voiture.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+<!-- RVIZ -->
+  <arg name="rvizconfig" default="$(find launch_project_s)/rviz/vehicle.rviz" />
+  <node name="rviz" 				pkg="rviz" 			type="rviz" args="-d $(arg rvizconfig)" />
+<?ignore
+<!-- RVIZ marker -->
+  <group ns="/RVIZ_marker">
+    <node pkg="smart_sensor_markers"		type="smart_sensor_markers"	name="smart_sensor_markers" />
+    <node name="obstacles_fusion_marker"	pkg="marker_generator" 		type="obstacles_fusion_marker" />
+    <node name="electronic_horizon_marker"	pkg="marker_generator" 		type="electronic_horizon_marker" />
+    <node name="trajectory_marker"		pkg="marker_generator" 		type="trajectory_marker" />
+    <node name="lines_fusion_marker"		pkg="marker_generator" 		type="lines_fusion_marker" />
+  </group>
+
+ <!-- HMI -->
+  <!--node name="hmi_as"			pkg="hmi_as"			type="hmi_as"  /-->
+  <node name="arduino"			pkg="arduino_replacement"	type="arduino_replacement" />
+
+<!-- Environment description -->
+
+?>
+
+<!-- Vehicle Sensors -->
+  <group ns="/vehicle_sensors">
+    <node pkg="vehicle_sensors"			type="vehicle_dbw"		name="vehicle_ego_data_report" />
+  </group>
+
+
+<?ignore
+<!-- Navigation System -->
+  <group ns="/navigation_system">
+    <node name="RoutePlanning"	 		pkg="navigation_system" 	type="RoutePlanning" />
+    <node name="MapMatching"	 		pkg="navigation_system" 	type="MapMatching" />
+    <node name="ElectronicHorizon" 		pkg="navigation_system" 	type="ElectronicHorizon" />
+  </group>
+
+<!-- Drivers AutonomouStuff -->
+  <!-- /stering_report et /imu/data_raw deja lance par dbw_hmi.launch plus bas -->
+  <!-- /inspva a lancer -->
+  <!-- ne pas mettre dans un group ns="..." -->
+  <!-- include file="$(find vehicle_launch)/launch/novatel.launch" / -->
+  <include file="$(find vehicle_launch)/launch/mytest.launch" />
+?>
+<!-- smart sensors -->
+  <!-- DelphiSRR -->
+    <node pkg="delphisrr_lf"			type="delphisrr_lf"		name="DelphiSRR_LF_node"> </node>
+    <node pkg="delphisrr_lr"			type="delphisrr_lr"		name="DelphiSRR_LR_node"> </node>
+    <node pkg="delphisrr_rf"			type="delphisrr_rf"		name="DelphiSRR_RF_node"> </node>
+    <node pkg="delphisrr_rr"			type="delphisrr_rr"		name="DelphiSRR_RR_node"> </node> 
+
+  <!-- Delphi ESR -->
+    <node pkg="delphiesr"			type="delphi_esr"		name="delphi_esr_node"> </node>
+
+  <!-- Ibeo Lidar -->
+    <node pkg="ibeo_lidar"			type="ibeo_lidar"		name="Ibeo_Lidar_node"> </node>
+
+  <!-- Mobileye -->
+    <node pkg="meyetest"			type="meyetest"			name="meyetest">  </node>
+  <!-- mobileyelane  -->
+    <node pkg="me_lane_test" type="me_lane_test" name="mobileye_lane_data" > </node>
+
+  <!-- Sonar -->
+    <node pkg="sonar" 				type="sonar" 			name="sonar_data"> </node>
+
+
+<?ignore
+<!-- fusion -->
+  <group ns="/objects_fusion">
+    <node name="local_tracks_filtering" 	pkg="obstacles_fusion" 		type="local_tracks_filtering" />
+    <node name="local_tracks_synchro" 		pkg="obstacles_fusion" 		type="local_tracks_synchro" />
+    <node name="local_tracks_association"	pkg="obstacles_fusion" 		type="local_tracks_association" />
+    <node name="local_tracks_fusion" 		pkg="obstacles_fusion" 		type="local_tracks_fusion" />
+    <node name="global_tracks_association"	pkg="obstacles_fusion" 		type="global_tracks_association" />
+    <node name="global_tracks_update" 		pkg="obstacles_fusion" 		type="global_tracks_update" />
+    <node name="global_tracks_confidence" 	pkg="obstacles_fusion" 		type="global_tracks_confidence" />
+    <node name="global_tracks_prediction" 	pkg="obstacles_fusion" 		type="global_tracks_prediction" />
+  </group>
+
+  <group ns="/lines_fusion">
+    <node name="lines_filtering" 		pkg="lanes_fusion" 		type="lines_filtering" />
+    <node name="lines_synchronization" 		pkg="lanes_fusion" 		type="lines_synchronization" />
+    <node name="lines_association" 		pkg="lanes_fusion" 		type="lines_association" />
+    <node name="lines_update" 			pkg="lanes_fusion" 		type="lines_update" />
+  </group>
+
+
+<!-- Scene analysis -->
+  <param name="matching_initial" value="false" />
+  <group ns="/environment_model">
+    <node name="road_model" 			pkg="environment_model" 	type="road_model" />
+    <node name="obstacles_assignment" 		pkg="environment_model" 	type="obstacles_assignment" />
+    <node name="fine_map_matching" 		pkg="environment_model" 	type="fine_map_matching" />
+  </group>
+
+
+?>
+
+<!-- driving -->
+  <group ns="/decision_mission">
+    <!--node name="mission_manager" 		pkg="decision_mission" 		type="mission_manager" /-->
+  </group>
+
+  <group ns="/decision_driving">
+    <node name="local_path_planning" 		pkg="decision_driving" 		type="local_path_planning" />
+    <node name="vehicle_speed_planning" 	pkg="decision_driving" 		type="vehicle_speed_planning" />
+  </group>
+
+<!-- Vehicle Control -->
+  <group ns="/vehicle_control">
+    <node name="vehicle_guidance" 		pkg="vehicle_control" 		type="vehicle_guidance" />
+  </group>
+
+<!-- Communication Interfaces -->
+
+<!-- Vehicle -->
+  <!-- ne pas mettre dans un group ns="..." -->
+    <include file="$(find dbw_mkz_can)/launch/dbw_hmi.launch" />
+
+</launch>

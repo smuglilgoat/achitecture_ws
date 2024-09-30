@@ -1,0 +1,4 @@
+<launch>
+    <!-- mobileye_lane_obstacle package launch file -->
+    <node pkg="meye" type="meye" name="mobileye_me_node" output="screen"> </node>
+</launch>

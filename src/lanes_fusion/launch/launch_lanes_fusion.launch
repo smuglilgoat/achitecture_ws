@@ -1,0 +1,32 @@
+﻿<launch>
+
+<!--Mobileye transforms-->
+  <!--pas besoin, car déjà fait dans le rosbag-->
+  <!--node pkg="tf" type="static_transform_publisher" name="base_link_to_me_viz" args="2.1 0 1.2 0 0 0 base_link me_viz 100" /-->
+
+<!-- RVIZ -->
+  <arg name="rvizconfig" default="$(find lanes_fusion)/rviz/lanes_fusion.rviz" />
+  <node name="rviz" 				pkg="rviz" 			type="rviz" args="-d $(arg rvizconfig)" />
+
+<!-- RVIZ marker -->
+  <group ns="/RVIZ_marker">
+    <node name="lines_fusion_marker"		pkg="marker_generator" 		type="lines_fusion_marker" />
+  </group>
+
+<!-- smart sensors -->
+ <node pkg="me_lane_test" type="me_lane_test" name="mobileye_lane_data"> </node>
+
+<!-- fusion -->
+  <group ns="/lines_fusion">
+    <node name="lines_filtering" 		pkg="lanes_fusion" 		type="lines_filtering" />
+    <node name="lines_synchronization" 		pkg="lanes_fusion" 		type="lines_synchronization" />
+    <node name="lines_association" 		pkg="lanes_fusion" 		type="lines_association" />
+    <node name="lines_update" 			pkg="lanes_fusion" 		type="lines_update" />
+  </group>
+
+<!-- Scene analysis -->
+  <group ns="/environment_model">
+    <node name="fine_map_matching" 		pkg="environment_model" 	type="fine_map_matching" />
+  </group>
+
+</launch>

@@ -1,0 +1,65 @@
+﻿<launch>
+  <rosparam file="$(find launch_project_s)/config/config.yaml" command="load" ns="/" /> 
+  <arg name="model" default="$(find launch_project_s)/urdf/voiture.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+<!-- RVIZ -->
+  <arg name="rvizconfig" default="$(find launch_project_s)/rviz/simulation_vehicle.rviz" />
+  <node name="rviz" 				pkg="rviz" 			type="rviz" args="-d $(arg rvizconfig)" />
+
+<!-- RVIZ marker -->
+  <group ns="/RVIZ_marker">
+    <node name="obstacles_fusion_marker"	pkg="marker_generator" 		type="obstacles_fusion_marker" />
+    <node name="electronic_horizon_marker"	pkg="marker_generator" 		type="electronic_horizon_marker" />
+    <node name="trajectory_marker"		pkg="marker_generator" 		type="trajectory_marker" />
+  </group>
+
+<!-- HMI -->
+  <node name="hmi_as"				pkg="hmi_as"			type="hmi_as" args="--force-discover" />
+
+<!-- Environment description -->
+  <group ns="/environment_description">
+    <node name="road_generator" 		pkg="environment_description"	type="generation_route2" />
+  </group>
+
+<!-- Vehicle Sensors -->
+
+<!-- Navigation System -->
+  <group ns="/navigation_system">
+    <node name="MapMatching"	 		pkg="navigation_system" 	type="MapMatching" />
+    <node name="ElectronicHorizon" 		pkg="navigation_system" 	type="ElectronicHorizon" />
+  </group>
+
+<!-- smart sensors -->
+
+<!-- fusion -->
+  <group ns="/objects_fusion">
+    <node name="local_tracks_filtering" 	pkg="obstacles_fusion" 		type="local_tracks_filtering" />
+    <node name="local_tracks_synchro" 		pkg="obstacles_fusion" 		type="local_tracks_synchro" />
+  </group>
+
+<!-- Scene analysis -->
+  <group ns="/environment_model">
+    <node name="road_model" 			pkg="environment_model" 	type="road_model" />
+    <node name="obstacles_assignment" 		pkg="environment_model" 	type="obstacles_assignment" />
+    <node name="fine_map_matching" 		pkg="environment_model" 	type="fine_map_matching" />
+  </group>
+
+<!-- driving -->
+  <group ns="/decision_driving">
+    <node name="local_path_planning" 		pkg="decision_driving" 		type="local_path_planning" />
+    <node name="vehicle_speed_planning" 	pkg="decision_driving" 		type="vehicle_speed_planning" />
+  </group>
+
+<!-- Vehicle Control -->
+  <group ns="/vehicle_control">
+    <node name="vehicle_guidance" 		pkg="vehicle_control" 		type="vehicle_guidance" />
+    <node name="actuators" 			pkg="vehicle_control" 		type="actuators" /> 
+  </group>
+
+<!-- Communication Interfaces -->
+
+<!-- Vehicle -->
+  <node name="vehicle" 				pkg="vehicle" 			type="vehicle" />
+
+</launch>

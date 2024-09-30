@@ -1,0 +1,39 @@
+﻿<launch>
+
+  <rosparam file="$(find launch_project_s)/config/config.yaml" command="load" ns="/" /> 
+  <arg name="model" default="$(find launch_project_s)/urdf/voiture.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+  <!-- DelphiSRR
+	<node pkg="delphisrr_lf" type="delphisrr_lf" name="DelphiSRR_LF_node" output="screen"> </node>
+	<node pkg="delphisrr_lr" type="delphisrr_lr" name="DelphiSRR_LR_node" output="screen"> </node>
+	<node pkg="delphisrr_rf" type="delphisrr_rf" name="DelphiSRR_RF_node" output="screen"> </node>
+	<node pkg="delphisrr_rr" type="delphisrr_rr" name="DelphiSRR_RR_node" output="screen"> </node>  --> 
+
+ <!-- Delphi ESR -->
+	<node pkg="delphiesr" type="delphi_esr" name="delphi_esr_node" output="screen"> </node>
+
+ <!-- Ibeo Lidar -->
+	<node pkg="ibeo_lidar" type="ibeo_lidar" name="Ibeo_Lidar_node" output="screen"> </node>
+
+ <!-- Mobileye -->
+	<!-- node pkg="meye" type="meye" name="mobileye_me_node" output="screen"> </node> -->
+
+	<node pkg="meyetest" type="meyetest" name="meyetest" output="screen"> </node>
+
+ <!-- DBW EgoDataReport Generator  -->
+    	<node pkg="vehicle_dbw" type="vehicle_dbw" name="vehicle_ego_data_report" output="screen"> </node>
+
+ <!-- Local Track Filtering -->
+	<node pkg="local_tracks_filtering" type="local_tracks_filtering" name="local_tracks_filtering" output="screen"> </node> 
+
+  <!-- smart_sensor_markers -->
+	<group ns="/smart_sensor">
+	  <node name="smart_sensor_markers" 		pkg="smart_sensor_markers" 		type="smart_sensor_markers" />
+	  <node name="smart_sensor_align_marker" 	pkg="smart_sensor_markers" 		type="smart_sensor_align_marker" />
+	</group>
+
+ <!-- local track synchro package launch file -->
+    <node pkg="local_tracks_synchro" type="local_tracks_synchro" name="local_track_synchro" output="screen"> </node>
+
+</launch>

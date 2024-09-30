@@ -1,0 +1,96 @@
+ego_vehicle:
+  offset_x: 0.0
+  offset_y: 0.0
+  offset_y: 0.0
+
+mobil_eye:
+  offset_x: 3.8
+  offset_y: 0.0
+  offset_z: 1.2
+  yaw: 0.0
+  roll: 0.0
+  pitch: 0.0
+  offset_line_x: 1.67
+#  offset_line_x: 0.0
+  offset_line_y: 0.0
+  offset_line_z: 0.0
+  range: 20.0
+  # 70 degrees
+  fov: 1.22
+
+sekonix_1:
+  offset_x: 0.0
+  offset_y: 0.0
+  offset_z: 0.0
+  range: 0.0
+  fov: 0.0
+  yaw: 0.0
+
+lidar:
+  offset_x: 0.0
+#  offset_x: 0.0
+  offset_y: 0.0
+  offset_z: 0.0
+  yaw: 0.0
+  roll: 0.0
+  pitch: 0.0
+  range: 100.0
+  # 270 degrees
+  fov: 4.71
+
+
+ESR_2_5:
+  offset_x: 3.05
+  offset_y: 0.0
+  offset_z: 0.19
+  yaw: 0.0
+  roll: 0.0
+  pitch: 0.0
+  range_long: 175.0
+  range_mid: 60.0
+  # 22 degrees
+  fov_long_range: 0.3839
+  # 90 degrees
+  fov_mid_range: 1.57
+
+
+SSR2_AVG:
+  offset_x: 2.02
+  offset_y: 1.45
+  offset_z: 0.0
+  # 37.5 degrees
+  yaw: 0.654
+  range: 70.0
+  # 160 degrees
+  fov: 2.79
+
+SSR2_AVD:
+  offset_x: 2.02
+  offset_y: -1.45
+  offset_z: 0.0
+  # 37.5 degrees
+  yaw: -0.654
+  range: 70.0
+  # 160 degrees
+  fov: 2.79
+
+SSR2_ARG:
+  offset_x: -2.02
+  offset_y: 1.45
+  offset_z: 0.0
+  # 37.5 degrees
+  yaw: 2.22
+  range: 70.0
+  # 160 degrees
+  fov: 2.79
+
+SSR2_ARD:
+  offset_x: -2.02
+  offset_y: -1.45
+  offset_z: 0.0
+  # 37.5 degrees
+  yaw: -2.22
+  range: 70.0
+  # 160 degrees
+  fov: 2.79
+

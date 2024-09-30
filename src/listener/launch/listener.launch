@@ -1,0 +1,6 @@
+<launch>
+    <!-- listener package launch file -->
+
+    <node pkg="listener" type="listener" name="listener" output="screen"> </node>
+
+</launch>

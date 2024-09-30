@@ -1,0 +1,16 @@
+(cl:in-package project_s_msgs-msg)
+(cl:export '(HEADER-VAL
+          HEADER
+          ID-VAL
+          ID
+          INDEXORIGINLANE-VAL
+          INDEXORIGINLANE
+          OBJECTMANOEUVRE-VAL
+          OBJECTMANOEUVRE
+          OBJECTSIGNALISATION-VAL
+          OBJECTSIGNALISATION
+          OBJECTPREDICTION-VAL
+          OBJECTPREDICTION
+          OBJECTPREDICTIONPROBABILITY-VAL
+          OBJECTPREDICTIONPROBABILITY
+))

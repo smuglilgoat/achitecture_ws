@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<robot name="voiture" xmlns:xacro="http://ros.org/wiki/xacro">
+
+<material name="blue">
+  <color rgba="0 0 0.8 1"/>
+</material>
+<material name="orange">
+    <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
+</material>
+
+<link name="base_link">
+    <visual>
+      <geometry>
+        <box size="4 2 1"/>
+      </geometry>
+      <material name ="blue"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="4 2 1"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+</link>
+
+<link name="camera_me">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.2 0.2"/>
+      </geometry>
+       <material name="orange"/>
+    </visual>
+ </link>
+
+<joint name="camera_me}_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="camera_me"/>
+    <origin rpy="0 0 0" xyz="0.67 0 0"/>
+ </joint>
+
+</robot>
+

@@ -1,0 +1,177 @@
+﻿<launch>
+  <rosparam file="$(find launch_project_s)/config/config.yaml" command="load" ns="/" /> 
+  <arg name="model" default="$(find launch_project_s)/urdf/voiture.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+<!-- RVIZ -->
+  <arg name="rvizconfig" default="$(find launch_project_s)/rviz/simulation.rviz" />
+  <node name="rviz" 				pkg="rviz" 			type="rviz" args="-d $(arg rvizconfig)" />
+
+<!-- RVIZ marker -->
+  <group ns="/RVIZ_marker">
+    <node name="obstacles_marker_generator"	pkg="marker_generator" 		type="obstacles_marker" />
+    <node name="camera_me_marker_generator"	pkg="marker_generator" 		type="camera_me_marker" />
+    <node name="radar_ESR_marker_generator"	pkg="marker_generator" 		type="radar_ESR_marker" />
+    <node name="lidar_marker_generator"		pkg="marker_generator" 		type="lidar_marker" />
+    <node name="obstacles_fusion_marker"	pkg="marker_generator" 		type="obstacles_fusion_marker" />
+    <node name="lines_fusion_marker"		pkg="marker_generator" 		type="lines_fusion_marker" />
+    <node name="electronic_horizon_marker"	pkg="marker_generator" 		type="electronic_horizon_marker" />
+    <node name="trajectory_marker"		pkg="marker_generator" 		type="trajectory_marker" />
+  </group>
+
+<!-- HMI -->
+  <node name="hmi_as"				pkg="hmi_as"			type="hmi_as" args="--force-discover" />
+
+<!-- Environment description -->
+  <group ns="/environment_description">
+    <node name="road_generator" 		pkg="environment_description"	type="generation_route2" />
+    <node name="obstacle_generator" 		pkg="environment_description"	type="generation_smart_data" />
+  </group>
+
+<!-- Vehicle Sensors -->
+  <group ns="/vehicle_sensors">
+    <!-- A REMETTRE APRES CORRECTION -->
+    <!--node name="gps" 			pkg="vehicle_sensors" 		type="gps" /-->
+    <node name="vehicle_sensor" 		pkg="vehicle_sensors" 		type="vehicle_sensor" />
+    <node name="egodata_fusion" 		pkg="vehicle_sensors" 		type="egodata_fusion" />
+  </group>
+
+<!-- Navigation System -->
+  <group ns="/navigation_system">
+    <node name="map_matching" 			pkg="navigation_system" 	type="map_matching" />
+    <node name="route_planning" 		pkg="navigation_system" 	type="route_planning" />
+    <node name="electronic_horizon" 		pkg="navigation_system" 	type="electronic_horizon" />
+  </group>
+
+<!-- smart sensors -->
+  <group ns="/sensor_models">
+    <node name="camera_sekonix_1" 		pkg="sekonix" 			type="camera_sekonix_1" />
+    <node name="camera_sekonix_image_processing" pkg="sekonix" 			type="camera_sekonix_image_processing" />
+    <node name="camera_sekonix_objects_tracking" pkg="sekonix" 			type="camera_sekonix_objects_tracking" />
+    <node name="camera_sekonix_data_merger" 	pkg="sekonix" 			type="camera_sekonix_data_merger" />
+    <node name="camera_sekonix_data_extraction" pkg="sekonix" 			type="camera_sekonix_data_extraction" />
+    <node name="camera_me_model" 		pkg="sensor_models" 		type="camera_me" />
+    <node name="camera_me_data_extraction" 	pkg="sensor_models" 		type="camera_me_data_extraction" />
+    <node name="lidar_model" 			pkg="sensor_models" 		type="lidar" />
+    <node name="lidar_data_extraction" 		pkg="sensor_models" 		type="lidar_data_extraction" />
+    <node name="radar_ESR_model" 		pkg="sensor_models" 		type="radar_ESR" />
+    <node name="radar_ESR_data_extraction" 	pkg="sensor_models" 		type="radar_ESR_data_extraction" />
+    <node name="radar_SRR2_model" 		pkg="sensor_models" 		type="radar_SRR2" />
+    <node name="radar_SRR2_data_extraction" 	pkg="sensor_models" 		type="radar_SRR2_data_extraction" />
+  </group>
+
+<!-- alignment -->
+  <group ns="/alignment">
+    <node name="camera_sekonix_alignement" 	pkg="sekonix" 			type="camera_sekonix_alignement" />
+    <node name="camera_me_alignment" 		pkg="alignment" 		type="camera_me_alignment" />
+    <node name="lidar_align" 			pkg="alignment" 		type="lidar_align" />
+    <node name="radar_ESR_align" 		pkg="alignment" 		type="radar_ESR_align" />
+    <node name="radar_SRR2_align" 		pkg="alignment" 		type="radar_SRR2_align" />
+  </group>
+
+<!-- fusion -->
+  <group ns="/objects_fusion">
+    <node name="local_tracks_filtering" 	pkg="obstacles_fusion" 		type="local_tracks_filtering" />
+    <node name="local_tracks_synchro" 		pkg="obstacles_fusion" 		type="local_tracks_synchro" />
+    <node name="local_tracks_association"	pkg="obstacles_fusion" 		type="local_tracks_association" />
+    <node name="local_tracks_fusion" 		pkg="obstacles_fusion" 		type="local_tracks_fusion" />
+    <node name="global_tracks_association"	pkg="obstacles_fusion" 		type="global_tracks_association" />
+    <node name="global_tracks_update" 		pkg="obstacles_fusion" 		type="global_tracks_update" />
+    <node name="global_tracks_confidence" 	pkg="obstacles_fusion" 		type="global_tracks_confidence" />
+    <node name="global_tracks_prediction" 	pkg="obstacles_fusion" 		type="global_tracks_prediction" />
+  </group>
+
+  <group ns="/lines_fusion">
+    <node name="lines_filtering" 		pkg="lanes_fusion" 		type="lines_filtering" />
+    <node name="lines_synchronization" 		pkg="lanes_fusion" 		type="lines_synchronization" />
+    <node name="lines_association" 		pkg="lanes_fusion" 		type="lines_association" />
+    <node name="lines_update" 			pkg="lanes_fusion" 		type="lines_update" />
+  </group>
+
+<!-- Scene analysis -->
+  <group ns="/environment_model">
+    <node name="road_model" 			pkg="environment_model" 	type="road_model" />
+    <node name="obstacles_assignment" 		pkg="environment_model" 	type="obstacles_assignment" />
+    <node name="fine_map_matching" 		pkg="environment_model" 	type="fine_map_matching" />
+  </group>
+
+<!-- driving -->
+  <group ns="/decision_mission">
+    <node name="mission_manager" 		pkg="decision_mission" 		type="mission_manager" />
+    <node name="navigation_manager" 		pkg="decision_mission" 		type="navigation_manager" />
+    <node name="driving_mode_management" 	pkg="decision_mission" 		type="driving_mode_management" />
+    <node name="driving_style_management" 	pkg="decision_mission" 		type="driving_style_management" />
+  </group>
+
+  <group ns="/decision_driving">
+    <node name="mobile_objects_manoeuvre" 	pkg="decision_driving" 		type="mobile_objects_manoeuvre" />
+    <node name="target_selection" 		pkg="decision_driving" 		type="target_selection" />
+    <node name="traffic_code_observance" 	pkg="decision_driving" 		type="traffic_code_observance" />
+    <node name="local_path_planning" 		pkg="decision_driving" 		type="local_path_planning" />
+    <node name="vehicle_speed_planning" 	pkg="decision_driving" 		type="vehicle_speed_planning" />
+  </group>
+
+<!-- Vehicle Control -->
+  <group ns="/vehicle_control">
+    <node name="vehicle_guidance" 		pkg="vehicle_control" 		type="vehicle_guidance" />
+    <node name="actuators" 			pkg="vehicle_control" 		type="actuators" /> 
+  </group>
+
+<!-- Communication Interfaces -->
+  <group ns="/communication_interfaces">
+    <node name="registration" 			pkg="communication_interfaces" 	type="registration" />
+    <node name="mission_request" 		pkg="communication_interfaces" 	type="mission_request" />
+    <node name="vehicle_state"			pkg="communication_interfaces" 	type="vehicle_state" /> 
+    <node name="vehicle_to_infrastructure"	pkg="communication_interfaces" 	type="vehicle_to_infrastructure" />
+    <node name="internal_HMI" 			pkg="communication_interfaces" 	type="internal_HMI" />
+    <node name="external_HMI"			pkg="communication_interfaces" 	type="external_HMI" /> 
+  </group>
+
+<!-- Vehicle -->
+  <node name="vehicle" 				pkg="vehicle" 			type="vehicle" />
+
+<!-- Mobileye arguments -->
+  <arg name="mobileye_frame_id" default="mobileye"/>
+  <arg name="mobileye_viz_frame_id" default="mobileye_viz"/>
+  <arg name="mobileye_can_hardware_id" default="41314"/>
+  <arg name="mobileye_can_circuit_id" default="0"/>
+
+  <!-- ESR arguments -->
+  <arg name="esr_frame_id" default="delphi_esr"/>
+  <arg name="esr_upside_down" default="false"/>
+  <arg name="esr_can_hardware_id" default="45344"/>
+  <arg name="esr_can_circuit_id" default="0"/>
+  <arg name="viz_mature_tracks_only" default="true"/>
+
+<!--===============***LAUNCH CONFIG***================-->
+  <arg name="with_dbw" default="true" />
+  <arg name="with_esr" default="true" />
+  <arg name="with_novatel" default="true" />
+  <arg name="with_srrs" default="true" />
+  <arg name="with_mobileye" default="true"/>
+
+<group ns="$(arg mobileye_frame_id)" if="$(arg with_mobileye)">
+    <node pkg="mobileye_560_660" type="mobileye_560_660" name="$(arg mobileye_frame_id)">
+        <!-- CAN configuration -->
+        <param name="can_hardware_id" value="$(arg mobileye_can_hardware_id)" />
+        <param name="can_circuit_id" value="$(arg mobileye_can_circuit_id)" />
+        <!-- tf configuration -->
+        <param name="viz_frame_id" value="$(arg mobileye_viz_frame_id)" />
+        <param name="sensor_frame_id" value="$(arg mobileye_frame_id)" />
+    </node>
+  </group>
+
+<!--Delphi ESR-->
+  <group if="$(arg with_esr)">
+    <node if="$(arg with_dbw)" ns="$(arg esr_frame_id)" pkg="topic_tools" type="relay" name="dbw_to_esr" args=" /vehicle/twist as_rx/vehicle_motion" />
+    <!--node pkg="delphi_esr" type="delphi_esr_can" name="delphi_esr" -->
+        <!-- can configuration -->    
+        <param name="can_hardware_id" value="$(arg esr_can_hardware_id)"/>
+        <param name="can_circuit_id" value="$(arg esr_can_circuit_id)"/>
+        <param name="sensor_frame_id" value="$(arg esr_frame_id)"/>
+        <param name="esr_upside_down" value="$(arg esr_upside_down)"/>
+        <param name="viz_mature_tracks_only" value="$(arg viz_mature_tracks_only)"/>
+    <!--/node-->
+  </group>
+
+</launch>

@@ -1,0 +1,4 @@
+<launch>
+    <!-- delphi_srr package launch file -->
+    <node pkg="delphisrr_rf" type="delphisrr_rf" name="DelphiSRR_RF_node" output="screen"> </node>
+</launch>

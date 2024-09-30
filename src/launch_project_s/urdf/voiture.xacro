@@ -1,0 +1,47 @@
+<?xml version="1.0" ?>
+<robot name="voiture" xmlns:xacro="http://ros.org/wiki/xacro">
+
+<link name="base_link">
+    <visual name="car">
+      <origin rpy="0 0 0" xyz="1 0 0"/>
+      <geometry>
+        <box size="4 2 1"/>
+      </geometry>
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </visual>
+
+    <visual name="camera_me">
+      <origin rpy="0 0 0" xyz="1.67 0 0.5"/>
+      <geometry>
+        <box size="0.4 0.4 0.4"/>
+      </geometry>
+      <material name="red">
+        <color rgba="1 0 0 1"/>
+      </material>
+    </visual>
+
+    <visual name="lidar">
+      <origin rpy="0 0 0" xyz="1 0 0.5"/>
+      <geometry>
+        <box size="0.4 0.4 0.4"/>
+      </geometry>
+      <material name="green">
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+
+    <visual name="radar">
+      <origin rpy="0 0 0" xyz="3 0 0.5"/>
+      <geometry>
+        <box size="0.4 0.4 0.4"/>
+      </geometry>
+      <material name="blue">
+        <color rgba="0 0 1 1"/>
+      </material>
+    </visual>
+</link>
+
+</robot>
+

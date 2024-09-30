@@ -1,0 +1,12 @@
+(cl:in-package project_s_msgs-msg)
+(cl:export '(HEADER-VAL
+          HEADER
+          ID-VAL
+          ID
+          REPORTOBSTACLEFUSIONGLOBALE-VAL
+          REPORTOBSTACLEFUSIONGLOBALE
+          REPORTOBSTACLEFUSION-VAL
+          REPORTOBSTACLEFUSION
+          PREDICTIONPISTEGLOBALE-VAL
+          PREDICTIONPISTEGLOBALE
+))
