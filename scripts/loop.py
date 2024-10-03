@@ -21,7 +21,6 @@ def create_gpx_track(gps_points, output_file):
     
     # Add each GPS point as a track point <trkpt> within the <trkseg>
     for point in gps_points:
-        print(point)
         lat, lon = point
         trkpt = ET.SubElement(trkseg, "trkpt", lat=str(lat), lon=str(lon))
 
@@ -35,11 +34,30 @@ def create_gpx_track(gps_points, output_file):
 
 # Example usage with four GPS points
 gps_points = [
-    (48.796671, 1.986849),  # Point 1: Lat, Lon
-    (48.796292, 1.986454), 
-    (48.795983, 1.987153), 
-    (48.79635, 1.987532), 
-    (48.796671, 1.986849)  # Point 1: Lat, Lon
+    (48.796634,1.986936),
+    (48.79665,1.986899),
+    (48.796655,1.986851),
+    (48.796637,1.986812),
+    (48.796614, 1.98678),
+    (48.796587, 1.986752),
+    (48.796342, 1.986505),
+    (48.796316, 1.986488),
+    (48.796292, 1.986485),
+    (48.796269, 1.986501),
+    (48.796246, 1.986549),
+    (48.79611, 1.986854),
+    (48.796017, 1.987052),
+    (48.796006, 1.987122),
+    (48.796016, 1.987173),
+    (48.79604, 1.987207),
+    (48.796072, 1.987247),
+    (48.79627, 1.987488),
+    (48.79629, 1.987507),
+    (48.796321, 1.987519),
+    (48.796351, 1.98751),
+    (48.796386, 1.987464),
+    (48.796483, 1.987259),
+    (48.796634,1.986936)
 ]
 
 output_gpx_file = "generated_track.gpx"  # Output GPX file name

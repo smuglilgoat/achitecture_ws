@@ -1446,7 +1446,7 @@ int main(int argc, char *argv[])
 			speedCollisionAvoidance[index].offset = OFFSET_NULL;
 			speedCollisionAvoidance[index].speed  = 0;
 			index++;
-			/* A REMETTRE ??? */
+			/* A REMETTRE ???
 
 			for(int id = 0; id < obstacleFusion.QtyObstacles.data; id++){
 				float delta_offset;
@@ -1467,7 +1467,7 @@ int main(int argc, char *argv[])
 						index=1;
 					}
 				}
-			}
+			}*/
 			// on complete le tableau avec des valeurs NULL
 			for(; index < project_s_msgs::RoadModel::SPEED_LIMIT_ARRAY_SIZE; index++){
 				speedCollisionAvoidance[index].offset = OFFSET_NULL;

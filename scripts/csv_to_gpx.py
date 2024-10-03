@@ -51,14 +51,18 @@ def csv_to_gpx(csv_filename, gpx_filename):
 # print(f"GPX file '{MEg_gpx_filename}' has been created from CSV '{MEg_csv_filename}'")
 
 # Convert csv to gpx
-GPSd_csv_filename = "GPSd.csv"
-GPSd_gpx_filename = "GPSd.gpx"
-csv_to_gpx(GPSd_csv_filename, GPSd_gpx_filename)
-print(f"GPX file '{GPSd_gpx_filename}' has been created from CSV '{GPSd_csv_filename}'")
+# GPSd_csv_filename = "GPSd.csv"
+# GPSd_gpx_filename = "GPSd.gpx"
+# csv_to_gpx(GPSd_csv_filename, GPSd_gpx_filename)
+# print(f"GPX file '{GPSd_gpx_filename}' has been created from CSV '{GPSd_csv_filename}'")
 
 # Convert csv to gpx
-GPSg_csv_filename = "GPSg.csv"
-GPSg_gpx_filename = "GPSg.gpx"
+GPSg_csv_filename = "GPSd29.csv"
+GPSg_gpx_filename = "GPSd29.gpx"
 csv_to_gpx(GPSg_csv_filename, GPSg_gpx_filename)
 print(f"GPX file '{GPSg_gpx_filename}' has been created from CSV '{GPSg_csv_filename}'")
 
+GPSg_csv_filename = "GPSg29.csv"
+GPSg_gpx_filename = "GPSg29.gpx"
+csv_to_gpx(GPSg_csv_filename, GPSg_gpx_filename)
+print(f"GPX file '{GPSg_gpx_filename}' has been created from CSV '{GPSg_csv_filename}'")

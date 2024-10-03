@@ -6,11 +6,30 @@
   <trk>
     <name>Sample Track</name>
     <trkseg>
-      <trkpt lat="48.796671" lon="1.986849"/>
-      <trkpt lat="48.796292" lon="1.986454"/>
-      <trkpt lat="48.795983" lon="1.987153"/>
-      <trkpt lat="48.79635" lon="1.987532"/>
-      <trkpt lat="48.796671" lon="1.986849"/>
+      <trkpt lat="48.796634" lon="1.986936"/>
+      <trkpt lat="48.79665" lon="1.986899"/>
+      <trkpt lat="48.796655" lon="1.986851"/>
+      <trkpt lat="48.796637" lon="1.986812"/>
+      <trkpt lat="48.796614" lon="1.98678"/>
+      <trkpt lat="48.796587" lon="1.986752"/>
+      <trkpt lat="48.796342" lon="1.986505"/>
+      <trkpt lat="48.796316" lon="1.986488"/>
+      <trkpt lat="48.796292" lon="1.986485"/>
+      <trkpt lat="48.796269" lon="1.986501"/>
+      <trkpt lat="48.796246" lon="1.986549"/>
+      <trkpt lat="48.79611" lon="1.986854"/>
+      <trkpt lat="48.796017" lon="1.987052"/>
+      <trkpt lat="48.796006" lon="1.987122"/>
+      <trkpt lat="48.796016" lon="1.987173"/>
+      <trkpt lat="48.79604" lon="1.987207"/>
+      <trkpt lat="48.796072" lon="1.987247"/>
+      <trkpt lat="48.79627" lon="1.987488"/>
+      <trkpt lat="48.79629" lon="1.987507"/>
+      <trkpt lat="48.796321" lon="1.987519"/>
+      <trkpt lat="48.796351" lon="1.98751"/>
+      <trkpt lat="48.796386" lon="1.987464"/>
+      <trkpt lat="48.796483" lon="1.987259"/>
+      <trkpt lat="48.796634" lon="1.986936"/>
     </trkseg>
   </trk>
 </gpx>
