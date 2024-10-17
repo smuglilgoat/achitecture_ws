@@ -57,7 +57,7 @@ def csv_to_gpx(csv_filename, gpx_filename):
 # print(f"GPX file '{GPSd_gpx_filename}' has been created from CSV '{GPSd_csv_filename}'")
 
 # Convert csv to gpx
-GPSg_csv_filename = "02_09_2024_15_11inspva.csv"
-GPSg_gpx_filename = "02_09_2024_15_11inspva.gpx"
+GPSg_csv_filename = "q.csv"
+GPSg_gpx_filename = "q.gpx"
 csv_to_gpx(GPSg_csv_filename, GPSg_gpx_filename)
 print(f"GPX file '{GPSg_gpx_filename}' has been created from CSV '{GPSg_csv_filename}'")
